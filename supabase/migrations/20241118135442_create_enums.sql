@@ -1,0 +1,14 @@
+CREATE TYPE "kinship" AS ENUM (
+  'PARENT',
+  'CHILD',
+  'SIBLING',
+  'PARTNER',
+  'FRIEND'
+);
+
+CREATE TYPE "user_status" AS ENUM (
+  'SUBMITTED',
+  'APPROVED',
+  'DECLINED',
+  'NOT_SUBMITTED'
+);
