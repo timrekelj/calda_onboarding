@@ -56,24 +56,16 @@ CREATE TABLE "benefactors" (
   PRIMARY KEY ("id")
 );
 
-CREATE TABLE "questions" (
-  "id" UUID UNIQUE NOT NULL DEFAULT (gen_random_uuid()),
-  "question" TEXT NOT NULL,
-  "comment" TEXT,
-  "created_at" TIMESTAMPTZ DEFAULT NOW(),
-  "updated_at" TIMESTAMPTZ DEFAULT NOW(),
-
-  PRIMARY KEY ("id")
-);
-
 CREATE TABLE "answers" (
   "user_id" UUID NOT NULL REFERENCES user_data ON DELETE CASCADE,
-  "question_id" UUID NOT NULL REFERENCES questions ON DELETE CASCADE,
-  "answer" TEXT NOT NULL,
+  "full name" TEXT,
+  "height" INT4,
+  "weight" INT4,
+  "smoker" BOOLEAN,
   "created_at" TIMESTAMPTZ DEFAULT NOW(),
   "updated_at" TIMESTAMPTZ DEFAULT NOW(),
 
-  PRIMARY KEY ("user_id", "question_id")
+  PRIMARY KEY ("user_id")
 );
 
 CREATE TABLE "insurance_status_changes" (

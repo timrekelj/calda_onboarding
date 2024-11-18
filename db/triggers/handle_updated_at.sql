@@ -12,8 +12,6 @@ CREATE TRIGGER handle_updated_at BEFORE UPDATE ON "prices"
   FOR EACH ROW EXECUTE PROCEDURE moddatetime (updated_at);
 CREATE TRIGGER handle_updated_at BEFORE UPDATE ON "benefactors"
   FOR EACH ROW EXECUTE PROCEDURE moddatetime (updated_at);
-CREATE TRIGGER handle_updated_at BEFORE UPDATE ON "questions"
-  FOR EACH ROW EXECUTE PROCEDURE moddatetime (updated_at);
 CREATE TRIGGER handle_updated_at BEFORE UPDATE ON "answers"
   FOR EACH ROW EXECUTE PROCEDURE moddatetime (updated_at);
 CREATE TRIGGER handle_updated_at BEFORE UPDATE ON "insurance_status_changes"
