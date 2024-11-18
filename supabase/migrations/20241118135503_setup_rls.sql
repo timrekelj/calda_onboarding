@@ -12,7 +12,7 @@ fOR ALL
 TO authenticated
 USING (
   EXISTS (
-    SELECT 1 FROM orders
+    SELECT 1 FROM deathwish_custom
     WHERE deathwish_custom.id = benefactors.deathwish_id
     AND deathwish_custom.user_id = auth.uid()
   )
@@ -46,20 +46,20 @@ FOR SELECT
 TO authenticated, anon
 USING (TRUE);
 
-CREATE POCREATE POLICY "Allow authenticated uploads"
+CREATE POLICY "Users can CRUD their profile images"
 ON storage.objects
-FOR INSERT
+FOR ALL
 TO authenticated
 WITH CHECK (
   bucket_id = 'profile_pictures' AND
   (storage.foldername(name))[1] = (select auth.uid()::text)
 );
 
-CREATE POLICY "Allow authenticated uploads"
+CREATE POLICY "Everyone can view thumbnails"
 ON storage.objects
 FOR SELECT
-TO authenticated
-WITH CHECK (bucket_id = 'deathwish_thumbnails');
+TO authenticated, anon
+USING (bucket_id = 'deathwish_thumbnails');
 
 ALTER TABLE public.user_data ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Authenticated users can CRUD user_data"

@@ -6,7 +6,7 @@ fOR ALL
 TO authenticated
 USING (
   EXISTS (
-    SELECT 1 FROM orders
+    SELECT 1 FROM deathwish_custom
     WHERE deathwish_custom.id = benefactors.deathwish_id
     AND deathwish_custom.user_id = auth.uid()
   )
