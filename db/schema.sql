@@ -13,8 +13,8 @@ CREATE TABLE "user_data" (
 
 CREATE TABLE "deathwish_default" (
   "id" UUID UNIQUE NOT NULL DEFAULT (gen_random_uuid()),
+  "thumbnail_url" TEXT,
   "name" TEXT NOT NULL,
-  "price" INT4 NOT NULL,
   "created_at" TIMESTAMPTZ DEFAULT NOW(),
   "updated_at" TIMESTAMPTZ DEFAULT NOW(),
 
@@ -26,6 +26,7 @@ CREATE TABLE "deathwish_custom" (
   "user_id" UUID REFERENCES USER_DATA ON DELETE CASCADE,
   "deathwish_id" UUID REFERENCES deathwish_default,
   "name" TEXT,
+  "price" INT4 NOT NULL,
   "personal_note" TEXT,
   "created_at" TIMESTAMPTZ DEFAULT NOW(),
   "updated_at" TIMESTAMPTZ DEFAULT NOW(),
@@ -45,7 +46,7 @@ CREATE TABLE "prices" (
 
 CREATE TABLE "benefactors" (
   "id" UUID UNIQUE NOT NULL DEFAULT (gen_random_uuid()),
-  "deathwish_id" UUID NOT NULL REFERENCES deathwish_default,
+  "deathwish_id" UUID NOT NULL REFERENCES deathwish_custom,
   "name" TEXT NOT NULL,
   "kinship" kinship NOT NULL,
   "created_at" TIMESTAMPTZ DEFAULT NOW(),
