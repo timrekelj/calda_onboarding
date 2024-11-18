@@ -4,6 +4,7 @@ CREATE TABLE "user_data" (
   "id" UUID UNIQUE NOT NULL REFERENCES auth.users ON DELETE CASCADE,
   "name" TEXT,
   "profile_picture_url" TEXT,
+  "monthly_payment_amount" FLOAT4,
   "status" user_status NOT NULL DEFAULT('NOT_SUBMITTED'),
   "created_at" TIMESTAMPTZ DEFAULT NOW(),
   "updated_at" TIMESTAMPTZ DEFAULT NOW(),
@@ -73,4 +74,15 @@ CREATE TABLE "answers" (
   "updated_at" TIMESTAMPTZ DEFAULT NOW(),
 
   PRIMARY KEY ("user_id", "question_id")
+);
+
+CREATE TABLE "insurance_status_changes" (
+  "id" UUID UNIQUE NOT NULL DEFAULT (gen_random_uuid()),
+  "user_id" UUID NOT NULL REFERENCES user_data ON DELETE CASCADE,
+  "status" user_status NOT NULL,
+  "monthly_payment_amount" FLOAT4,
+  "created_at" TIMESTAMPTZ DEFAULT NOW(),
+  "updated_at" TIMESTAMPTZ DEFAULT NOW(),
+
+  PRIMARY KEY ("id")
 );
