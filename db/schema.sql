@@ -1,55 +1,67 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA EXTENSIONS;
 
 CREATE TABLE "user_data" (
-  "id" UUID UNIQUE PRIMARY KEY NOT NULL REFERENCES auth.users ON DELETE CASCADE,
+  "id" UUID UNIQUE NOT NULL REFERENCES auth.users ON DELETE CASCADE,
   "name" TEXT,
   "profile_picture_url" TEXT,
   "status" user_status NOT NULL DEFAULT('NOT_SUBMITTED'),
   "created_at" TIMESTAMPTZ DEFAULT NOW(),
-  "updated_at" TIMESTAMPTZ DEFAULT NOW()
+  "updated_at" TIMESTAMPTZ DEFAULT NOW(),
+
+  PRIMARY KEY ("id")
 );
 
 CREATE TABLE "deathwish_default" (
-  "id" UUID UNIQUE PRIMARY KEY NOT NULL DEFAULT (gen_random_uuid()),
+  "id" UUID UNIQUE NOT NULL DEFAULT (gen_random_uuid()),
   "name" TEXT NOT NULL,
-  "price" UUID NOT NULL,
+  "price" INT4 NOT NULL,
   "created_at" TIMESTAMPTZ DEFAULT NOW(),
-  "updated_at" TIMESTAMPTZ DEFAULT NOW()
+  "updated_at" TIMESTAMPTZ DEFAULT NOW(),
+
+  PRIMARY KEY ("id")
 );
 
 CREATE TABLE "deathwish_custom" (
-  "id" UUID UNIQUE PRIMARY KEY NOT NULL DEFAULT (gen_random_uuid()),
+  "id" UUID UNIQUE NOT NULL DEFAULT (gen_random_uuid()),
   "user_id" UUID REFERENCES USER_DATA ON DELETE CASCADE,
   "deathwish_id" UUID REFERENCES deathwish_default,
   "name" TEXT,
   "personal_note" TEXT,
   "created_at" TIMESTAMPTZ DEFAULT NOW(),
-  "updated_at" TIMESTAMPTZ DEFAULT NOW()
+  "updated_at" TIMESTAMPTZ DEFAULT NOW(),
+
+  PRIMARY KEY ("id")
 );
 
 CREATE TABLE "prices" (
-  "id" UUID UNIQUE PRIMARY KEY NOT NULL DEFAULT (gen_random_uuid()),
+  "id" UUID UNIQUE NOT NULL DEFAULT (gen_random_uuid()),
   "price" INT4 NOT NULL,
   "display" TEXT NOT NULL,
   "created_at" TIMESTAMPTZ DEFAULT NOW(),
-  "updated_at" TIMESTAMPTZ DEFAULT NOW()
+  "updated_at" TIMESTAMPTZ DEFAULT NOW(),
+
+  PRIMARY KEY ("id")
 );
 
 CREATE TABLE "benefactors" (
-  "id" UUID UNIQUE PRIMARY KEY NOT NULL DEFAULT (gen_random_uuid()),
+  "id" UUID UNIQUE NOT NULL DEFAULT (gen_random_uuid()),
   "deathwish_id" UUID NOT NULL REFERENCES deathwish_default,
   "name" TEXT NOT NULL,
   "kinship" kinship NOT NULL,
   "created_at" TIMESTAMPTZ DEFAULT NOW(),
-  "updated_at" TIMESTAMPTZ DEFAULT NOW()
+  "updated_at" TIMESTAMPTZ DEFAULT NOW(),
+
+  PRIMARY KEY ("id")
 );
 
 CREATE TABLE "questions" (
-  "id" UUID UNIQUE PRIMARY KEY NOT NULL DEFAULT (gen_random_uuid()),
+  "id" UUID UNIQUE NOT NULL DEFAULT (gen_random_uuid()),
   "question" TEXT NOT NULL,
   "comment" TEXT,
   "created_at" TIMESTAMPTZ DEFAULT NOW(),
-  "updated_at" TIMESTAMPTZ DEFAULT NOW()
+  "updated_at" TIMESTAMPTZ DEFAULT NOW(),
+
+  PRIMARY KEY ("id")
 );
 
 CREATE TABLE "answers" (
@@ -88,7 +100,7 @@ LANGUAGE plpgsql
 SECURITY DEFINER SET search_path = ''
 AS $$
 BEGIN
-  INSERT INTO user_data (id, name)
+  INSERT INTO public.user_data (id, name)
   VALUES (new.id, new.name);
   RETURN new;
 END;
